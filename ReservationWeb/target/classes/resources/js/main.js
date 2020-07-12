@@ -2,7 +2,8 @@
 window.addEventListener("DOMContentLoaded", function() {
 	getSlideImage();
 	runImageSlider();
-	getProductAjax(0,0); //초기화면 전체리스트 보여주기위해 0 넣어줌.(id=0,start=0) 
+	getProductAjax(0,0); //초기화면 전체리스트 보여주기위해 0 넣어줌.(id=0,start=0)
+	getCategoryAjax(0) //초기화면 전체리스트 행사 갯수 표시위해 호출. (전체리스트 id=0)
 	clickTabMenu(); //카테고리 클릭시 event 등록
 	clickMoreButton(); //더보기버튼 event 등록
 });

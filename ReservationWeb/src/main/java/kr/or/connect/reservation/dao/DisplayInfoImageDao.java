@@ -1,6 +1,6 @@
 package kr.or.connect.reservation.dao;
-import static kr.or.connect.reservation.sqls.ReservationSqls.COUNT_ALL_CATEGORY;
-import static kr.or.connect.reservation.sqls.ReservationSqls.SELECT_CATEGORY;
+
+import static kr.or.connect.reservation.sqls.DisplayInfoSqls.SELECT_DISPLAY_INFO_IMAGE;
 
 import java.util.*;
 
@@ -15,37 +15,29 @@ import org.springframework.stereotype.*;
 import kr.or.connect.reservation.dto.*;
 
 @Repository
-public class CategoryDao {
+public class DisplayInfoImageDao {
 	private NamedParameterJdbcTemplate jdbc;
     private SimpleJdbcInsert insertAction;
-    private RowMapper<CategoryDto> rowMapper = BeanPropertyRowMapper.newInstance(CategoryDto.class);
+    private RowMapper<DisplayInfoImageDto> rowMapper = BeanPropertyRowMapper.newInstance(DisplayInfoImageDto.class);
 
-    public CategoryDao(DataSource dataSource) {
+    public DisplayInfoImageDao(DataSource dataSource) {
         this.jdbc = new NamedParameterJdbcTemplate(dataSource);
-        this.insertAction = new SimpleJdbcInsert(dataSource)
-                .withTableName("category")
-                .usingGeneratedKeyColumns("id");
+        
     }
     
-    public List<CategoryDto> selectCategory(Integer id) {
-    	
+    public List<DisplayInfoImageDto> selectDisplayInfoImageById(Integer displayInfoId){
+		
     	try {
     		Map<String, Integer> params = new HashMap<>();
     		//Map<String, ?> params = Collections.singletonMap("id", id);
-    		params.put("id", id);
+    		params.put("id", displayInfoId);
+    		
 			//System.out.print(params);
-			return jdbc.query(SELECT_CATEGORY, params, rowMapper);
+			return jdbc.query(SELECT_DISPLAY_INFO_IMAGE, params, rowMapper);
 			//return null;
 		}catch(EmptyResultDataAccessException e) {//해당 조건이 없을경우
 			return null;
 		}
-    }
-    public List<CategoryDto> countAll() {
-    	
-    	return jdbc.query(COUNT_ALL_CATEGORY, Collections.<String, Object>emptyMap(), rowMapper);
-    	
-	
     	
     }
-
 }

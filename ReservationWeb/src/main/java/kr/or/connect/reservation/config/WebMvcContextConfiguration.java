@@ -1,11 +1,20 @@
 package kr.or.connect.reservation.config;
 
+import java.util.*;
+
 import org.springframework.context.annotation.*;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.*;
 
+import springfox.documentation.builders.*;
+import springfox.documentation.service.*;
+import springfox.documentation.spi.*;
+import springfox.documentation.spring.web.plugins.*;
+import springfox.documentation.swagger2.annotations.*;
+
 @Configuration
-@EnableWebMvc
+@EnableWebMvc //Model View Controller (MVC 설정)
+@EnableSwagger2 //Swagger 설정 추가
 @ComponentScan(basePackages= {"kr.or.connect.reservation.controller"})
 public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 	
@@ -16,6 +25,7 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/img_map/**").addResourceLocations("/img_map/").setCachePeriod(31556926);
         registry.addResourceHandler("/font/**").addResourceLocations("/font/").setCachePeriod(31556926);
         registry.addResourceHandler("/js/**").addResourceLocations("/js/").setCachePeriod(31556926);
+        
     }
  
     // default servlet handler를 사용하게 합니다.
@@ -38,6 +48,28 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
         resolver.setPrefix("/WEB-INF/views/"); //어떤 view 인지 찾아내게해줌
         resolver.setSuffix(".jsp");//확장자 선택
         return resolver;
+    }
+    
+    
+    //Swagger config
+    @Bean
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				.apis(RequestHandlerSelectors.any()) // // RequestMapping으로 할당된 모든 URL 리스트를 검색하여 인식
+				.paths(PathSelectors.ant("/api/**"))// PathSelectors.any() 를 할경우 Web api가 아닌 경로도 api path로 인식한다. .ant() 로 api 로사용할 경로를 넣어준다.
+				.build()
+				.apiInfo(apiInfo())
+				.useDefaultResponseMessages(true);
+				
+	}
+    
+    private ApiInfo apiInfo() {
+    	//현재 swagger version : 2.9.2
+        Contact contact = new Contact("이규홍", "https://github.com/eQueue", "latancy486@naver.com");
+        List<VendorExtension> vendorExtensions = new ArrayList<>();
+        ApiInfo apiInfo = new ApiInfo("ReservationWeb APi", "Show API", "v1.0", "localhost:8080/ReservationWeb/swagger-ui.html", contact, "", "", vendorExtensions);
+        return apiInfo;
     }
 
 }
