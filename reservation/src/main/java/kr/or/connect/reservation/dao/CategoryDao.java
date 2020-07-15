@@ -1,28 +1,36 @@
 package kr.or.connect.reservation.dao;
 
-import static kr.or.connect.reservation.dao.ReservationSqls.SELECT_CATEGORY;
-
-import java.util.List;
-
-import javax.sql.DataSource;
-
+import kr.or.connect.reservation.dto.Category;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-import kr.or.connect.reservation.dto.Category;
+import javax.sql.DataSource;
+import java.util.Collections;
+import java.util.List;
 
-@Repository
+import static kr.or.connect.reservation.dao.sqls.CategoryDaoSqls.GET_COUNT;
+import static kr.or.connect.reservation.dao.sqls.CategoryDaoSqls.SELLECT_ALL;
+
+@Service
 public class CategoryDao {
-	private NamedParameterJdbcTemplate jdbc;
-	private RowMapper<Category> rowMapper = BeanPropertyRowMapper.newInstance(Category.class);
+    @Autowired
+    DataSource dataSource;
 
-	public CategoryDao(DataSource dataSource) {
-		this.jdbc = new NamedParameterJdbcTemplate(dataSource);
-	}
+    private NamedParameterJdbcTemplate jdbc;
+    private RowMapper<Category> rowMapper = BeanPropertyRowMapper.newInstance(Category.class);
 
-	public List<Category> selectCategory() {
-		return jdbc.query(SELECT_CATEGORY, rowMapper);
-	}
+    public CategoryDao(DataSource dataSource){
+        this.jdbc = new NamedParameterJdbcTemplate(dataSource);
+    }
+
+    public List<Category> getCategory(){
+        return jdbc.query(SELLECT_ALL, rowMapper);
+    }
+
+    public int getCount(){
+        return jdbc.queryForObject(GET_COUNT, Collections.<String, Object>emptyMap(), Integer.class);
+    }
 }

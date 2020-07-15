@@ -1,37 +1,64 @@
 package kr.or.connect.reservation.dto;
 
 public class Promotion {
-	private Integer id;
-	private Integer productId;
-	private String productImageUrl;
+    private int id;
+    private int productId;
+    private int categoryId;
+    private String categoryName;
+    private String description;
+    private int fileId;
 
-	public Integer getId() {
-		return id;
-	}
+	public int getCategoryId() {
+        return categoryId;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
 
-	public Integer getProductId() {
-		return productId;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setProductId(Integer productId) {
-		this.productId = productId;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getProductImageUrl() {
-		return productImageUrl;
-	}
+    public int getProductId() {
+        return productId;
+    }
 
-	public void setProductImageUrl(String productImageUrl) {
-		this.productImageUrl = productImageUrl;
-	}
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(int fileId) {
+        this.fileId = fileId;
+    }
 
 	@Override
 	public String toString() {
-		return "Promotion [id=" + id + ", productId=" + productId + ", productImageUrl=" + productImageUrl + "]";
+		return "Promotion [id=" + id + ", productId=" + productId + ", categoryId=" + categoryId + ", categoryName="
+				+ categoryName + ", description=" + description + ", fileId=" + fileId + "]";
 	}
-
 }
