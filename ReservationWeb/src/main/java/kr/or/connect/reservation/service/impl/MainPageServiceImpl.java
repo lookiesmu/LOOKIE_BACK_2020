@@ -18,6 +18,18 @@ public class MainPageServiceImpl implements MainPageService{
 	CategoryDao categoryDao;
 	@Autowired
 	ProductDao productDao;
+	@Autowired
+	DisplayInfoDao displayinfoDao;
+	@Autowired
+	ProductImageDao productImageDao;
+	@Autowired
+	DisplayInfoImageDao displayinfoimageDao;
+	@Autowired
+	CommentImageDao commentimageDao;
+	@Autowired
+	CommentsDao commentsDao;
+	@Autowired
+	ProductPriceDao	productpriceDao;
 	
 	
 	@Override
@@ -66,6 +78,66 @@ public class MainPageServiceImpl implements MainPageService{
 		}
 		
 		return productlist;
+	}
+
+
+	@Override
+	@Transactional
+	public List<DisplayInfoDto> getDisplayInfo(Integer displayInfoId) {
+		// TODO Auto-generated method stub
+		List<DisplayInfoDto> displayinfo=displayinfoDao.selectDisplayInfoById(displayInfoId);
+		
+		return displayinfo;
+	}
+
+
+	@Override
+	@Transactional
+	public List<ProductImageDto> getProductImage(Integer productId) {
+		// TODO Auto-generated method stub
+		List<ProductImageDto> productImage=productImageDao.selectProductImageById(productId);
+		
+		return productImage;
+	}
+
+
+	@Override
+	@Transactional
+	public List<DisplayInfoImageDto> getDisplayInfoImage(Integer displayInfoId) {
+		// TODO Auto-generated method stub
+		List<DisplayInfoImageDto> displayinfoimage=displayinfoimageDao.selectDisplayInfoImageById(displayInfoId);
+		
+		return displayinfoimage;
+	}
+
+
+	@Override
+	@Transactional
+	public List<CommentImageDto> getCommentImages(Integer commentId) {
+		// TODO Auto-generated method stub
+		List<CommentImageDto> commentimages=commentimageDao.selectCommentImageById(commentId);
+		
+		return commentimages;
+	}
+
+
+	@Override
+	@Transactional
+	public List<CommentsDto> getComments(Integer productId) {
+		// TODO Auto-generated method stub
+		List<CommentsDto> comments=commentsDao.selectCommentsById(productId);
+		
+		return comments;
+	}
+
+
+	@Override
+	@Transactional
+	public List<ProductPriceDto> getProductPrice(Integer productId) {
+		// TODO Auto-generated method stub
+		List<ProductPriceDto> productprices=productpriceDao.selectProductPriceById(productId);
+				
+		return productprices;
 	}
 	
 	

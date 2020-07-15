@@ -1,7 +1,7 @@
 package kr.or.connect.reservation.dao;
 
-import static kr.or.connect.reservation.dao.ReservationSqls.SELECT_ALL_PRODUCT;
-import static kr.or.connect.reservation.dao.ReservationSqls.SELECT_PRODUCT;
+import static kr.or.connect.reservation.sqls.ReservationSqls.SELECT_ALL_PRODUCT;
+import static kr.or.connect.reservation.sqls.ReservationSqls.SELECT_PRODUCT;
 
 import java.util.*;
 
@@ -42,7 +42,7 @@ public class ProductDao {
 		}
     }
     
-public List<ProductDto> selectAllProduct(Integer start, Integer limit) {
+    public List<ProductDto> selectAllProduct(Integer start, Integer limit) {
 		try {
 			Map<String, Integer> params = new HashMap<>();
 			params.put("start", start);
