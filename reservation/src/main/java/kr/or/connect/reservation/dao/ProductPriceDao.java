@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static kr.or.connect.reservation.dao.sqls.ProductPriceDaoSqls.SELECT_BY_PRODUCT_ID;
+import static kr.or.connect.reservation.dao.sqls.ProductPriceSqls.PRICE_BY_PRODUCT_ID;
 
 @Repository
 public class ProductPriceDao {
@@ -22,9 +22,9 @@ public class ProductPriceDao {
         this.jdbc = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public List<ProductPrice> selectByProductId(int productId){
+    public List<ProductPrice> getPriceByProductId(int productId){
         Map<String, Integer> params = new HashMap<>();
         params.put("productId", productId);
-        return jdbc.query(SELECT_BY_PRODUCT_ID, params, rowMapper);
+        return jdbc.query(PRICE_BY_PRODUCT_ID, params, rowMapper);
     }
 }

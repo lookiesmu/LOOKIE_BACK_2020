@@ -18,34 +18,19 @@ public class ReservationUserCommentServiceImpl implements ReservationUserComment
     public int getTotalCount() {
         return reservationUserCommentDao.getTotalCount();
     }
-
-    private List<String> getUserCommentImages(ReservationUserComment comment){
-        int reservationUserCommentId = comment.getId();
-        List<String> UserCommentImageFileNamaList = reservationUserCommentDao.getUserCommentImagesByCommentId(reservationUserCommentId);
-
-        return UserCommentImageFileNamaList;
-    }
     
     @Override
-    public List<ReservationUserComment> selectAll(int start) {
-        List<ReservationUserComment> comments = reservationUserCommentDao.selectAll(start);
+    public List<ReservationUserComment> getComment(int start) {
+        List<ReservationUserComment> comments = reservationUserCommentDao.getComment(start, ReservationUserCommentService.LIMIT);
 
-        for (ReservationUserComment comment : comments){
-            List<String> commentImages = getUserCommentImages(comment);
-            comment.setReservationUserCommentImages(commentImages);
-        }
         return comments;
     }
 
     @Override
-    public List<ReservationUserComment> selectByProductId(int productId,int start) {
+    public List<ReservationUserComment> getCommentByProductId(int productId,int start) {
 
-        List<ReservationUserComment> comments = reservationUserCommentDao.selectByProductId(productId, start);
+        List<ReservationUserComment> comments = reservationUserCommentDao.getCommentByProductId(productId, start, ReservationUserCommentService.LIMIT);
 
-        for (ReservationUserComment comment : comments){
-            List<String> commentImages = getUserCommentImages(comment);
-            comment.setReservationUserCommentImages(commentImages);
-        }
         return comments;
     }
 

@@ -10,8 +10,8 @@ import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.List;
 
-import static kr.or.connect.reservation.dao.sqls.PromotionDaoSqls.SELECT_ALL;
-import static kr.or.connect.reservation.dao.sqls.PromotionDaoSqls.GET_COUNT;
+import static kr.or.connect.reservation.dao.sqls.PromotionSqls.PROMOTION_ALL;
+import static kr.or.connect.reservation.dao.sqls.PromotionSqls.COUNT_ALL;
 
 @Repository
 public class PromotionDao {
@@ -22,11 +22,11 @@ public class PromotionDao {
         this.jdbc = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public List<Promotion> selectAll(){
-        return jdbc.query(SELECT_ALL, rowMapper);
+    public List<Promotion> getPromotion(){
+        return jdbc.query(PROMOTION_ALL, rowMapper);
     }
 
     public int getCount(){
-        return jdbc.queryForObject(GET_COUNT, Collections.<String, Object>emptyMap(), Integer.class);
+        return jdbc.queryForObject(COUNT_ALL, Collections.<String, Object>emptyMap(), Integer.class);
     }
 }

@@ -27,15 +27,14 @@ public class DisplayInfoServiceImpl implements DisplayInfoService {
     }
 
     @Override
-    public DisplayInfo selectDisplayInfoById(int displayId) {
-        return displayInfoDao.selectDisplayInfoById(displayId);
+    public DisplayInfo getDisplayInfoById(int displayId) {
+        return displayInfoDao.getDisplayInfoById(displayId);
     }
 
     @Override
     @Transactional
-    public List<DisplayInfo> selectDisplayInfos(int start, int categoryId) { //
+    public List<DisplayInfo> getDisplayInfos(int start, int categoryId) { //
         int totalCount = getTotalCount();
-
-        return displayInfoDao.selectDisplayInfos(start, totalCount, categoryId);
+        return displayInfoDao.getDisplayInfos(start, totalCount, categoryId);
     }
 }
