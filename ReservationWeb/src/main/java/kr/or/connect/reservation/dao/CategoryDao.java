@@ -1,6 +1,6 @@
 package kr.or.connect.reservation.dao;
-import static kr.or.connect.reservation.sqls.ReservationSqls.COUNT_ALL_CATEGORY;
-import static kr.or.connect.reservation.sqls.ReservationSqls.SELECT_CATEGORY;
+import static kr.or.connect.reservation.sqls.MainPageSqls.COUNT_ALL_CATEGORY;
+import static kr.or.connect.reservation.sqls.MainPageSqls.SELECT_CATEGORY;
 
 import java.util.*;
 

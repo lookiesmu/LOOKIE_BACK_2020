@@ -98,21 +98,9 @@ function getProductAjax(id,start){ //카테고리 클릭할때마다 실행됨
 		var totalCount=itemslist.totalCount;
 		var item=itemslist.items;
 		
-//		for ( var key in item){
-//			insertItem = itemTemplate.replace("{description}", item[key].productDescription)
-//									.replace("{ProductImageId}", item[key].productImageUrl)
-//									.replace("{description}", item[key].productDescription)
-//									.replace("{placeName}",item[key].placeName)
-//									.replace("{content}",item[key].productContent);
-//			if(key%4 ==0 || key%4==1){
-//				itembox[0].innerHTML +=insertItem;
-//			}
-//			else{
-//				itembox[1].innerHTML +=insertItem;
-//			}
-//		};
 		item.forEach(function(e,i){//item 의 element ,index 한개한개씩 접근
-			insertItem = itemTemplate.replace("{description}", e.productDescription)
+			insertItem = itemTemplate.replace("{id}", e.displayInfoId)
+									.replace("{description}", e.productDescription)
 									.replace("{ProductImageId}", e.productImageUrl)
 									.replace("{description}", e.productDescription)
 									.replace("{placeName}",e.placeName)

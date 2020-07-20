@@ -1,6 +1,6 @@
 package kr.or.connect.reservation.dao;
 
-import static kr.or.connect.reservation.sqls.ReservationSqls.SELECT_PRODUCT_IMAGE_BY_ID;
+import static kr.or.connect.reservation.sqls.DisplayInfoSqls.SELECT_PRODUCT_IMAGE_BY_ID;
 
 import java.util.*;
 

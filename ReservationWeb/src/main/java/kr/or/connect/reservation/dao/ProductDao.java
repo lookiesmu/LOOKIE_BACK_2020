@@ -1,7 +1,7 @@
 package kr.or.connect.reservation.dao;
 
-import static kr.or.connect.reservation.sqls.ReservationSqls.SELECT_ALL_PRODUCT;
-import static kr.or.connect.reservation.sqls.ReservationSqls.SELECT_PRODUCT;
+import static kr.or.connect.reservation.sqls.MainPageSqls.SELECT_ALL_PRODUCT;
+import static kr.or.connect.reservation.sqls.MainPageSqls.SELECT_PRODUCT;
 
 import java.util.*;
 
