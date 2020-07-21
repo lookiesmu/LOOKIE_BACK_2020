@@ -67,7 +67,10 @@ public class ProductApiController {
 		}
 		
 		//averageScore 구하기
-		averageScore=(double)totalScore/comments.size();
+		if(comments.size()!=0) {
+			averageScore=(double)totalScore/comments.size();
+		}
+		
 		
 		
 		Map<String,Object> map = new HashMap<>();
