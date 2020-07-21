@@ -9,8 +9,7 @@ public class ProductImage {
     private int productImageId;
     private String type;
     private int fileInfoId;
-
-
+    
     private String fileName;
     private String saveFileName;
     private String contentType;

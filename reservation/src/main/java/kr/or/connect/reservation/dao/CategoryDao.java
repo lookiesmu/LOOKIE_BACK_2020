@@ -11,8 +11,8 @@ import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.List;
 
-import static kr.or.connect.reservation.dao.sqls.CategoryDaoSqls.GET_COUNT;
-import static kr.or.connect.reservation.dao.sqls.CategoryDaoSqls.SELLECT_ALL;
+import static kr.or.connect.reservation.dao.sqls.CategorySqls.ALL_CATEGORY;
+import static kr.or.connect.reservation.dao.sqls.CategorySqls.GET_SIZE;
 
 @Service
 public class CategoryDao {
@@ -27,10 +27,10 @@ public class CategoryDao {
     }
 
     public List<Category> getCategory(){
-        return jdbc.query(SELLECT_ALL, rowMapper);
+        return jdbc.query(ALL_CATEGORY, rowMapper);
     }
 
     public int getCount(){
-        return jdbc.queryForObject(GET_COUNT, Collections.<String, Object>emptyMap(), Integer.class);
+        return jdbc.queryForObject(GET_SIZE, Collections.<String, Object>emptyMap(), Integer.class);
     }
 }

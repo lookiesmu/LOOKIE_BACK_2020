@@ -5,6 +5,6 @@ import kr.or.connect.reservation.dto.Promotion;
 import java.util.List;
 
 public interface PromotionService {
-    public List<Promotion> selectAll();
+    public List<Promotion> getPromotion();
     public int getCount();
 }

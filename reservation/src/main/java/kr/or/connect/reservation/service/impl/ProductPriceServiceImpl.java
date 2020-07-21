@@ -14,7 +14,7 @@ public class ProductPriceServiceImpl implements ProductPriceService {
     ProductPriceDao productPriceDao;
 
     @Override
-    public List<ProductPrice> selectByProductId(int productId) {
-        return productPriceDao.selectByProductId(productId);
+    public List<ProductPrice> getPriceByProductId(int productId) {
+        return productPriceDao.getPriceByProductId(productId);
     }
 }

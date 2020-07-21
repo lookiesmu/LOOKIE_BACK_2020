@@ -12,14 +12,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static kr.or.connect.reservation.dao.sqls.ReservationUserCommentDaoSqls.*;
+import static kr.or.connect.reservation.dao.sqls.ReservationUserCommentSqls.*;
 
 
 @Repository
 public class ReservationUserCommentDao {
     private NamedParameterJdbcTemplate jdbc;
     private RowMapper<ReservationUserComment> rowMapper = BeanPropertyRowMapper.newInstance(ReservationUserComment.class);
-    private final int limit = 5;
+    //private final int limit = 5;
 
     public ReservationUserCommentDao(DataSource dataSource){
         this.jdbc = new NamedParameterJdbcTemplate(dataSource);
@@ -28,17 +28,13 @@ public class ReservationUserCommentDao {
     public int getScore(int productId){
         Map<String, Integer> params = new HashMap<>();
         params.put("productId", productId);
-
-        return jdbc.queryForObject(GET_SCORE_AVG, params, Integer.class);
+        if(jdbc.queryForObject(SCORE_AVG, params, Integer.class)==null) {
+        	return 0;
+        }
+        return jdbc.queryForObject(SCORE_AVG, params, Integer.class);
     }
-
-    public List<String> getUserCommentImagesByCommentId(int commentId){
-        Map<String, Integer> params = new HashMap<>();
-        params.put("reservationUserCommentId", commentId);
-
-        return jdbc.queryForList(SELECT_COMMENT_IMAGE_FILE_NAME_BY_COMMENT_ID, params, String.class);
-    }
-    public List<ReservationUserComment> selectByProductId(int productId, int start){
+    
+    public List<ReservationUserComment> getCommentByProductId(int productId, int start, int limit){
         Map<String, Object> params = new HashMap<>();
         params.put("productId", productId);
         params.put("start", start);
@@ -47,16 +43,16 @@ public class ReservationUserCommentDao {
         return jdbc.query(SELECT_BY_PRODUCT_ID, params, rowMapper);
     }
 
-    public List<ReservationUserComment> selectAll(int start){
+    public List<ReservationUserComment> getComment(int start, int limit){
         Map<String, Object> params = new HashMap<>();
 
         params.put("start", start);
         params.put("limit", limit);
 
-        return jdbc.query(SELECT_ALL, params, rowMapper);
+        return jdbc.query(COMMENT_ALL, params, rowMapper);
     }
 
     public int getTotalCount(){
-        return jdbc.queryForObject(GET_TOTAL_COUNT, Collections.<String, Object>emptyMap(), Integer.class);
+        return jdbc.queryForObject(COUNT_COMMENT_ALL, Collections.<String, Object>emptyMap(), Integer.class);
     }
 }

@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static kr.or.connect.reservation.dao.sqls.DisplayInfoDaoSqls.*;
+import static kr.or.connect.reservation.dao.sqls.DisplayInfoSqls.*;
 
 @Repository
 public class DisplayInfoDao {
@@ -27,7 +27,7 @@ public class DisplayInfoDao {
     }
 
     @Transactional
-    public List<DisplayInfo> selectDisplayInfos(int start, int limit, int categoryId){
+    public List<DisplayInfo> getDisplayInfos(int start, int limit, int categoryId){
         Map<String, Integer> params = new HashMap<>();
         List<DisplayInfo> result = null;
 
@@ -35,30 +35,30 @@ public class DisplayInfoDao {
         params.put("limit", limit);
 
         if(categoryId == 0){
-            result = jdbc.query(SELECT_ALL_LIMIT, params, rowMapper);
+            result = jdbc.query(DISPLAY_ALL, params, rowMapper);
         }else{
             params.put("categoryId", categoryId);
-            result = jdbc.query(SELECT_BY_CATEGORY_ID_LIMIT, params, rowMapper);
+            result = jdbc.query(DISPLAY_BY_CATEGORYID_LIMIT, params, rowMapper);
         }
 
         return result;
     }
 
-    public DisplayInfo selectDisplayInfoById(int displayId){
+    public DisplayInfo getDisplayInfoById(int displayId){
         Map<String, Integer> params = new HashMap<>();
         params.put("displayId", displayId);
-        return jdbc.queryForObject(SELECT_BY_DISPLAY_ID, params, rowMapper);
+        return jdbc.queryForObject(SELECT_DISPLAY_BY_DISPLAYID, params, rowMapper);
     }
 
     public int getTotalCount(){
-        return jdbc.queryForObject(GET_TOTAL_COUNT, Collections.<String, Object>emptyMap(), Integer.class);
+        return jdbc.queryForObject(COUNT_ALL, Collections.<String, Object>emptyMap(), Integer.class);
     }
 
     public int getCountByCategoryId(int categoryId){
         Map<String, Integer> params = new HashMap<>();
         params.put("categoryId", categoryId);
 
-        return jdbc.queryForObject(GET_TOTAL_COUNT_BY_CATEGORY_ID_LIMIT, params, Integer.class);
+        return jdbc.queryForObject(COUNT_CATEGORYID, params, Integer.class);
     }
 
 }

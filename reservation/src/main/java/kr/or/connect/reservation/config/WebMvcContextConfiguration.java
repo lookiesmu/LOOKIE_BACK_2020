@@ -4,8 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -27,6 +25,18 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
+    
+	// Spring MVC에서 jsp view 가 위치하는 경로를 설정한다.
+	@Override
+	public void configureViewResolvers(ViewResolverRegistry registry) {
+		registry.jsp("/WEB-INF/views/", ".jsp");
+	}
+
+        //    '/' 로 요청이 오면 '/main'으로 리다이렉트 하도록 합니다.
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addRedirectViewController("/", "/main");
+	}
     
 	@Bean
 	public Docket api() {

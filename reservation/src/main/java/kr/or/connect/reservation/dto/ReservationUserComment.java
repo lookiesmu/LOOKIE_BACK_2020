@@ -12,6 +12,7 @@ public class ReservationUserComment {
     private int productId;
     private int reservationInfoId;
     private int score;
+    private String reservationEmail;
     private String comment;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
@@ -19,7 +20,7 @@ public class ReservationUserComment {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Date modifyDate;
 
-    private List<String> reservationUserCommentImages = new ArrayList<>();  // default value는 빈 리스트 []
+    private List<String> reservationUserCommentImages = new ArrayList<>();
 
     public int getId() {
         return id;

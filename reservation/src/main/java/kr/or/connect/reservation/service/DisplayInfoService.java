@@ -7,6 +7,6 @@ import java.util.List;
 public interface DisplayInfoService {
     public int getTotalCount();
     public int getCountByCategoryId(int categoryId);
-    public List<DisplayInfo> selectDisplayInfos(int start, int categoryId);
-    public DisplayInfo selectDisplayInfoById(int displayId);
+    public List<DisplayInfo> getDisplayInfos(int start, int categoryId);
+    public DisplayInfo getDisplayInfoById(int displayId);
 }
