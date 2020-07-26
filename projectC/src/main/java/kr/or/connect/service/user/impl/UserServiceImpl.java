@@ -3,10 +3,10 @@ package kr.or.connect.service.user.impl;
 
 import kr.or.connect.dao.user.UserDao;
 import kr.or.connect.dao.user.UserRoleDao;
-import kr.or.connect.dto.security.User;
-import kr.or.connect.dto.security.UserEntity;
-import kr.or.connect.dto.security.UserRole;
-import kr.or.connect.dto.security.UserRoleEntity;
+import kr.or.connect.dto.user.User;
+import kr.or.connect.dto.user.UserEntity;
+import kr.or.connect.dto.user.UserRole;
+import kr.or.connect.dto.user.UserRoleEntity;
 import kr.or.connect.service.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,8 +36,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getUser(String loginUserId) {
-        User user = userDao.getUserByEmail(loginUserId);
+    public UserEntity selectUser(String loginUserId) {
+        User user = userDao.selectUserByEmail(loginUserId);
 
         if(user == null)
             return null;
@@ -46,8 +46,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserRoleEntity> getUserRoles(String loginUserId) {
-        List<UserRole> userRoles = userRoleDao.getUserRolesByEmail(loginUserId);
+    public List<UserRoleEntity> selectUserRoles(String loginUserId) {
+        List<UserRole> userRoles = userRoleDao.selectUserRolesByEmail(loginUserId);
         List<UserRoleEntity> list = new ArrayList<>();
 
         for(UserRole userRole : userRoles){

@@ -1,7 +1,8 @@
 package kr.or.connect.service.display.impl;
 
 import kr.or.connect.dao.display.DisplayInfoImageDao;
-import kr.or.connect.dto.DisplayInfoImage;
+import kr.or.connect.dao.file.FileInfoDao;
+import kr.or.connect.dto.display.DisplayInfoImage;
 import kr.or.connect.service.display.DisplayInfoImageService;
 import kr.or.connect.service.file.FileInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class DisplayInfoImageServiceImpl implements DisplayInfoImageService {
             int displayInfoImageId = (int)displayInfoimageInfo.get("id");
             int fileId = (int)displayInfoimageInfo.get("file_id");
 
-            DisplayInfoImage displayInfoImage = (DisplayInfoImage)fileInfoService.selectByFileId(fileId, DisplayInfoImage.class);
+            DisplayInfoImage displayInfoImage = (DisplayInfoImage)fileInfoService.selectFileInfoByFileId(fileId, DisplayInfoImage.class);
 
             displayInfoImage.setId(displayInfoImageId);
             displayInfoImage.setDisplayInfoId(displayInfoId);
