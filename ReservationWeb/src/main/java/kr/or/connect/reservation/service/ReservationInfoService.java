@@ -15,6 +15,10 @@ public interface ReservationInfoService {
 	public int insertReservedPrices(PricesDto prices);
 	public int cancelRerservation(int reservationInfoId);
 	public int deleteReservationPrices(int reservationInfoId);
+	public int insertComment(CommentsDto comment);
+	public int insertCommentImageInfo(CommentImageDto commentImage);
+	public int insertImageFileInfo(FileInfoDto fileInfo);
+	
 	
 
 }

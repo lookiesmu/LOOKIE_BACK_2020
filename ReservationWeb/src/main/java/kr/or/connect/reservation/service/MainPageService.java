@@ -18,4 +18,7 @@ public interface MainPageService {
 	public List<CommentsDto> getComments(Integer productId);
 	public List<CommentImageDto> getCommentImages(Integer commentId);
 	public List<ProductPriceDto> getProductPrice(Integer productId);
+	
+	//이미지 파일 download service
+	public List<FileInfoDto> getFileInfo(int fileId);
 }

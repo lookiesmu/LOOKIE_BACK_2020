@@ -22,7 +22,17 @@ public class CommentsDao {
 
     public CommentsDao(DataSource dataSource) {
         this.jdbc = new NamedParameterJdbcTemplate(dataSource);
+        this.insertAction = new SimpleJdbcInsert(dataSource)
+        		.withTableName("reservation_user_comment")
+                .usingGeneratedKeyColumns("id");
         
+    }
+    
+    public int insertComment(CommentsDto comment) {
+   
+    	
+    	SqlParameterSource params = new BeanPropertySqlParameterSource(comment);
+		return insertAction.executeAndReturnKey(params).intValue();
     }
     
     public List<CommentsDto> selectCommentsById(Integer productId){

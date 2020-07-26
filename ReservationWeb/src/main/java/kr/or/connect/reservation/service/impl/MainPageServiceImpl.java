@@ -30,6 +30,8 @@ public class MainPageServiceImpl implements MainPageService{
 	CommentsDao commentsDao;
 	@Autowired
 	ProductPriceDao	productpriceDao;
+	@Autowired
+	FileInfoDao fileInfoDao;
 	
 	
 	@Override
@@ -140,6 +142,11 @@ public class MainPageServiceImpl implements MainPageService{
 		return productprices;
 	}
 	
+	@Override
+	public List<FileInfoDto> getFileInfo(int fileId) {
+		// TODO Auto-generated method stub
+		return fileInfoDao.selectFileById(fileId);
+	}
 	
 
 }

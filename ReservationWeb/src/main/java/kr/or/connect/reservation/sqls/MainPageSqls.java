@@ -25,5 +25,9 @@ public class MainPageSqls {
 			+ "where product.id=display_info.id and product_image.product_id=product.id and type=\"th\" and product_image.file_id=file_info.id "
 			+ "limit :start, :limit";
 	
+	public static final String SELECT_FILE_BY_ID="select * "
+			+ "from file_info "
+			+ "where id= :id";
+	
 	
 }

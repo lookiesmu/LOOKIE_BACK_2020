@@ -2,7 +2,8 @@ package kr.or.connect.reservation.sqls;
 
 public class ReservationInfoSqls {
 	
-	public static final String SELECT_RESERVATIONS_BY_EMAIL="select * from reservation_info "
+	public static final String SELECT_RESERVATIONS_BY_EMAIL="select * "
+			+ "from reservation_info "
 			+ "where reservation_email= :email";
 	public static final String GET_TOTAL_PRICE="select sum(product_price.price*reservation_info_price.count)as totalPrice "
 			+ "from reservation_info, reservation_info_price, product_price "
