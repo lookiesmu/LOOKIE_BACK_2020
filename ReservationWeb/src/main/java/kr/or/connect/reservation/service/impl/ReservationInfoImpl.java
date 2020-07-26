@@ -15,7 +15,12 @@ public class ReservationInfoImpl implements ReservationInfoService{
 	ReservationInfoDao reservationInfoDao;
 	@Autowired
 	ReservedPriceDao reservedPriceDao;
-	
+	@Autowired
+	CommentsDao commentsDao;
+	@Autowired
+	CommentImageDao commentImageDao;
+	@Autowired
+	FileInfoDao fileInfoDao;
 	
 	@Override
 	public List<ReservationsDto> getReservations(String email) {
@@ -87,6 +92,27 @@ public class ReservationInfoImpl implements ReservationInfoService{
 	}
 
 
+	@Override
+	public int insertComment(CommentsDto comment) {
+		// TODO Auto-generated method stub
+		
+		
+		return commentsDao.insertComment(comment);
+	}
+
+
+	@Override
+	public int insertCommentImageInfo(CommentImageDto commentImage) {
+		// TODO Auto-generated method stub
+		return commentImageDao.insertCommentImage(commentImage);
+	}
+
+
+	@Override
+	public int insertImageFileInfo(FileInfoDto fileInfo) {
+		// TODO Auto-generated method stub
+		return fileInfoDao.insertImageFileInfo(fileInfo);
+	}
 	
 
 }

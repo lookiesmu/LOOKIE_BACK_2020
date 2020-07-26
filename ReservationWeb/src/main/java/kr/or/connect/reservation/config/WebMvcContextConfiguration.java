@@ -3,9 +3,11 @@ package kr.or.connect.reservation.config;
 import java.util.*;
 
 import org.springframework.context.annotation.*;
+import org.springframework.web.multipart.*;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.*;
 
+import kr.or.connect.reservation.config.interceptor.*;
 import springfox.documentation.builders.*;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.*;
@@ -41,6 +43,14 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
         //main만 가지고 view를 찾을수 없음. 밑의 bean필요
     }
     
+    @Override//인터셉터 등록
+	public void addInterceptors(InterceptorRegistry registry) {
+    		registry.addInterceptor(new LogInterceptor());
+//    		모든 request가 아닌 특정한 req에만 실행할 interceptor는 
+//    		registry.addInterceptor(new GuestBookInterceptor()).addPathPatterns("/auth/**");
+    		
+	}
+    
     @Bean
     public InternalResourceViewResolver getInternalResourceViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -63,6 +73,16 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 				.useDefaultResponseMessages(true);
 				
 	}
+    
+    //file upload resolver
+    @Bean
+    public MultipartResolver multipartResolver() {
+        org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(10485760); // 1024 * 1024 * 10
+        return multipartResolver;
+    }
+    
+    
     
     private ApiInfo apiInfo() {
     	//현재 swagger version : 2.9.2
