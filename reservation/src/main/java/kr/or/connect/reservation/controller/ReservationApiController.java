@@ -10,12 +10,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -23,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @RestController
@@ -49,6 +55,8 @@ public class ReservationApiController {
 	UserService userService;
 	@Autowired
 	CustomUserDetailsService customUserDetailsService;
+	@Autowired
+	ReservationUserCommentImageService reservationUserCommentImageService;
 
 	@GetMapping(path = "/categories")
 	public Map<String, Object> getCategories() {
@@ -135,6 +143,7 @@ public class ReservationApiController {
 			@RequestParam(name = "productId", required = false, defaultValue = "-1") int productId,
 			@RequestParam(name = "start", required = false, defaultValue = "1") int start) {
 		Map<String, Object> map = new LinkedHashMap<>();
+		List<ReservationUserComment> commentAll = null;
 		List<ReservationUserComment> commentList = null;
 
 		try {
@@ -147,6 +156,14 @@ public class ReservationApiController {
 			}
 			int commentCount = commentList.size();
 
+			int i = 0;
+			for (ReservationUserComment List : commentList) {
+				List.setReservationUserCommentImages(
+						reservationUserCommentImageService.getReservationImage(List.getReservationInfoId()));
+				commentList.set(i, List);
+				i++;
+			}
+			
 			map.put("totalCount", totalCount);
 			map.put("commentCount", commentCount);
 			map.put("reservationUserComments", commentList);
@@ -156,97 +173,166 @@ public class ReservationApiController {
 
 		return map;
 	}
-	
-	@PostMapping(path="/reservationInfos")
-	public Map<String, Object> postReservation(@RequestParam(name = "productPriceId", required = true)int productPriceId, 
-			@RequestParam(name = "count", required = true)int count, 
-			@RequestParam(name = "productId", required = true)int productId, 
-			@RequestParam(name = "displayInfoId", required = true)int displayInfoId,
-			@SessionAttribute("userId") int userId){
+
+	@PostMapping(path = "/reservationInfos")
+	public Map<String, Object> postReservation(
+			@RequestParam(name = "productPriceId", required = true) int productPriceId,
+			@RequestParam(name = "count", required = true) int count,
+			@RequestParam(name = "productId", required = true) int productId,
+			@RequestParam(name = "displayInfoId", required = true) int displayInfoId,
+			@SessionAttribute("userId") int userId) {
 		Map<String, Object> map = new LinkedHashMap<>();
-		
-		if(userId==0) {
+
+		if (userId == 0) {
 			map.put("error", "로그인 안함");
 		}
-		
+
 		reservationInfoService.postReservation(productId, displayInfoId, userId);
-		
+
 		int reservationInfoId = reservationInfoService.getId(productId, displayInfoId, userId);
 		reservationInfoService.postPrice(reservationInfoId, productPriceId, count);
-		
+
 		Price price = new Price();
-		
+
 		price.setReservationInfoId(reservationInfoId);
 		price.setCount(count);
 		price.setProductPriceId(productPriceId);
-		
+
 		map.put("prices", price);
 		map.put("productId", productId);
 		map.put("displayInfoId", displayInfoId);
 		map.put("userId", userId);
-		
+
 		return map;
 	}
-	
-	@GetMapping(path="/reservationInfos") //로그인 상태
-	public Map<String, Object> getReservation(@SessionAttribute("userId") int userId,
-			 HttpServletRequest request){
+
+	@GetMapping(path = "/reservationInfos") // 로그인 상태
+	public Map<String, Object> getReservation(@SessionAttribute("userId") int userId, HttpServletRequest request) {
 		Map<String, Object> map = new LinkedHashMap<>();
-		
-				
-		if(userId==0) {
+
+		if (userId == 0) {
 			map.put("error", "로그인 안함");
 		}
-		
+
 		List<ReservationInfo> reservationList = null;
-		
+
 		try {
 			int size = reservationInfoService.getSize(userId);
 			reservationList = reservationInfoService.getReservationInfo(userId);
 			map.put("size", size);
 			map.put("items", reservationList);
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return map;
 	}
-	
-	@PutMapping(path="/reservationInfos") //로그인 상태
-	public Map<String, Object> deleteReservation(@RequestParam(name="id", required=true, defaultValue="1") int id){
+
+	@PutMapping(path = "/reservationInfos") // 로그인 상태
+	public Map<String, Object> deleteReservation(
+			@RequestParam(name = "id", required = true, defaultValue = "1") int id) {
 		Map<String, Object> map = new LinkedHashMap<>();
-		
+
 		String result = reservationInfoService.deleteId(id);
-		
+
 		map.put("result", result);
 		return map;
 	}
-	
-	@RequestMapping(path="login", method=RequestMethod.POST)
-	public CustomUserDetails postLogin(@RequestParam(name="loginUserId", required=true)String userId,
-			@RequestParam(name="password", required=true)String password,
-			HttpSession session){
-		
+
+	@RequestMapping(path = "/login", method = RequestMethod.POST)
+	public CustomUserDetails postLogin(@RequestParam(name = "loginUserId", required = true) String userId,
+			@RequestParam(name = "password", required = true) String password, HttpSession session) {
+
 		UserEntity user = userService.getUser(userId);
 		int id = userService.getId(userId);
-		
-		if(user==null) {
+
+		if (user == null) {
 			throw new UsernameNotFoundException("회원의 아이디 혹은 패스워드가 다릅니다.");
 		}
-		
-		CustomUserDetails customUserDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(user.getLoginUserId());
-		session.setAttribute("userId",id);
-		
-	    return customUserDetails;
+
+		CustomUserDetails customUserDetails = (CustomUserDetails) customUserDetailsService
+				.loadUserByUsername(user.getLoginUserId());
+		session.setAttribute("userId", id);
+
+		return customUserDetails;
 	}
-	
-	@RequestMapping(path="logout", method=RequestMethod.POST)
-	public Map<String, String> logout(HttpSession session){
+
+	@RequestMapping(path = "/logout", method = RequestMethod.POST)
+	public Map<String, String> logout(HttpSession session) {
 		Map<String, String> map = new LinkedHashMap<>();
-		
+
 		session.removeAttribute("userId");
 		map.put("logout", "success");
 		return map;
+	}
+
+	@PostMapping(path = "/comments")
+	public Map<String, Object> postReservation(
+			@RequestParam(name = "reservationInfoId", required = true) int reservationInfoId,
+			@RequestParam(name = "score", required = true) int score,
+			@RequestParam(name = "comment", required = true) String comment, @RequestParam("file") MultipartFile file,
+			@SessionAttribute("userId") int userId) {
+		Map<String, Object> map = new LinkedHashMap<>();
+		int productId = reservationUserCommentImageService.getProductId(reservationInfoId);
+
+		reservationUserCommentImageService.postComment(productId, reservationInfoId, userId, score, comment);
+
+		String fileName = file.getOriginalFilename();
+		String saveFileName = file.getOriginalFilename();
+		String contentType = file.getContentType();
+		int deleteFlag = 0;
+
+		try (
+			// 맥일 경우
+			// FileOutputStream fos = new FileOutputStream("/tmp/" +
+			// file.getOriginalFilename());
+			// 윈도우일 경우
+			FileOutputStream fos = new FileOutputStream("c:/tmp/" + file.getOriginalFilename());
+			InputStream is = file.getInputStream();) {
+			int readCount = 0;
+			byte[] buffer = new byte[1024];
+			while ((readCount = is.read(buffer)) != -1) {
+				fos.write(buffer, 0, readCount);
+			}
+		} catch (Exception ex) {
+			throw new RuntimeException("file Save Error");
+		}
+
+		reservationUserCommentImageService.postImage(fileName, saveFileName, contentType, deleteFlag);
+		
+		int reservationUserCommentId = reservationUserCommentImageService.getReservationCommentId(productId, reservationInfoId, userId);
+		int fileId = reservationUserCommentImageService.getFileId(fileName);
+		
+		reservationUserCommentImageService.postCommentImage(reservationInfoId, reservationUserCommentId, fileId);
+		
+		map.put("result", "success");
+		map.put("productId", productId);
+		return map;
+	}
+	
+	@GetMapping(path = "/files/{fileId}")
+	public void download(@PathVariable(name = "fileId") int fileId, HttpServletResponse response) {
+		// 직접 파일 정보를 변수에 저장해 놨지만, 이 부분이 db에서 읽어왔다고 가정한다.
+		String fileName = reservationUserCommentImageService.getFileName(fileId);
+		String saveFileName = "c:/tmp/"+fileName; // 맥일 경우 "/tmp/connect.png" 로 수정
+		String contentType = reservationUserCommentImageService.getFileType(fileId);
+		int fileLength = 1116303;
+
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
+		response.setHeader("Content-Transfer-Encoding", "binary");
+		response.setHeader("Content-Type", contentType);
+		response.setHeader("Content-Length", "" + fileLength);
+		response.setHeader("Pragma", "no-cache;");
+		response.setHeader("Expires", "-1;");
+
+		try (FileInputStream fis = new FileInputStream(saveFileName); OutputStream out = response.getOutputStream();) {
+			int readCount = 0;
+			byte[] buffer = new byte[1024];
+			while ((readCount = fis.read(buffer)) != -1) {
+				out.write(buffer, 0, readCount);
+			}
+		} catch (Exception ex) {
+			throw new RuntimeException("file Save Error");
+		}
 	}
 }
