@@ -191,7 +191,7 @@ public class ReserveApiController {
 	                // 맥일 경우 
 	                //FileOutputStream fos = new FileOutputStream("/tmp/" + file.getOriginalFilename());
 	                // 윈도우일 경우
-	                FileOutputStream fos = new FileOutputStream(saveDir + file.getOriginalFilename()); //파일이 저장될 경로 설정
+	                FileOutputStream fos = new FileOutputStream("D:/tmp/"+saveDir + file.getOriginalFilename()); //파일이 저장될 경로 설정
 	                InputStream is = file.getInputStream();
 	        ){
 	        	    int readCount = 0;
