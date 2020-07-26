@@ -20,6 +20,7 @@ import kr.or.connect.reservation.service.DisplayInfoService;
 import kr.or.connect.reservation.service.ProductImageService;
 import kr.or.connect.reservation.service.ProductPriceService;
 import kr.or.connect.reservation.service.ReservationInfoService;
+import kr.or.connect.reservation.service.ReservationUserCommentImageService;
 import kr.or.connect.reservation.service.ReservationUserCommentService;
 import kr.or.connect.reservation.service.UserService;
 
@@ -37,7 +38,10 @@ public class ServiceTest {
 		ReservationInfoService rs = ac.getBean(ReservationInfoService.class);
 		UserService us = ac.getBean(UserService.class);
 		CustomUserDetailsService cd = ac.getBean(CustomUserDetailsService.class);
+		
+		ReservationUserCommentImageService ru = ac.getBean(ReservationUserCommentImageService.class);
 
+		System.out.println(ru.getReservationImage(16));
 		//System.out.println(us.getUserEntity("carami@connect.co.kr", "1234"));
 	}
 }

@@ -8,88 +8,97 @@ import java.util.List;
 
 public class ReservationUserComment {
 
-    private int id;
-    private int productId;
-    private int reservationInfoId;
-    private int score;
-    private String reservationEmail;
-    private String comment;
+	private int id;
+	private int productId;
+	private int reservationInfoId;
+	private int score;
+	private String reservationEmail;
+	private String comment;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private Date createDate;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private Date modifyDate;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+	private Date createDate;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+	private Date modifyDate;
 
-    private List<String> reservationUserCommentImages = new ArrayList<>();
+	private List<ReservationUserCommentImage> reservationUserCommentImages = new ArrayList<>();
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public int getProductId() {
-        return productId;
-    }
+	public int getProductId() {
+		return productId;
+	}
 
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
 
-    public int getReservationInfoId() {
-        return reservationInfoId;
-    }
+	public int getReservationInfoId() {
+		return reservationInfoId;
+	}
 
-    public void setReservationInfoId(int reservationInfoId) {
-        this.reservationInfoId = reservationInfoId;
-    }
+	public void setReservationInfoId(int reservationInfoId) {
+		this.reservationInfoId = reservationInfoId;
+	}
 
-    public int getScore() {
-        return score;
-    }
+	public int getScore() {
+		return score;
+	}
 
-    public void setScore(int score) {
-        this.score = score;
-    }
+	public void setScore(int score) {
+		this.score = score;
+	}
 
-    public String getComment() {
-        return comment;
-    }
+	public String getReservationEmail() {
+		return reservationEmail;
+	}
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+	public void setReservationEmail(String reservationEmail) {
+		this.reservationEmail = reservationEmail;
+	}
 
-    public Date getCreateDate() {
-        return createDate;
-    }
+	public String getComment() {
+		return comment;
+	}
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
-    public Date getModifyDate() {
-        return modifyDate;
-    }
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-    public void setModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
-    }
-    
-    public List<String> getReservationUserCommentImages() {
-        return reservationUserCommentImages;
-    }
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 
-    public void setReservationUserCommentImages(List<String> reservationUserCommentImages) {
-        this.reservationUserCommentImages = reservationUserCommentImages;
-    }
+	public Date getModifyDate() {
+		return modifyDate;
+	}
+
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
+
+	public List<ReservationUserCommentImage> getReservationUserCommentImages() {
+		return reservationUserCommentImages;
+	}
+
+	public void setReservationUserCommentImages(List<ReservationUserCommentImage> reservationUserCommentImages) {
+		this.reservationUserCommentImages = reservationUserCommentImages;
+	}
 
 	@Override
 	public String toString() {
 		return "ReservationUserComment [id=" + id + ", productId=" + productId + ", reservationInfoId="
-				+ reservationInfoId + ", score=" + score + ", comment=" + comment + ", createDate=" + createDate
-				+ ", modifyDate=" + modifyDate + ", reservationUserCommentImages=" + reservationUserCommentImages + "]";
+				+ reservationInfoId + ", score=" + score + ", reservationEmail=" + reservationEmail + ", comment="
+				+ comment + ", createDate=" + createDate + ", modifyDate=" + modifyDate
+				+ ", reservationUserCommentImages=" + reservationUserCommentImages + "]";
 	}
 }
